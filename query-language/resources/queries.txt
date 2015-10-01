@@ -1,0 +1,12 @@
+sin 5 * $4
+abs(-4 * 5 * cos(-pi))
+
+weather Saint-Petersburg
+time: Munich
+
+define: JetBrains
+
+translate some stuff into russian
+
+10 euro in dollar
+1000 km in m

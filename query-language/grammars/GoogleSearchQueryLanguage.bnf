@@ -1,0 +1,134 @@
+{
+    parserClass="ru.spbau.kozlov.queries.QueryLanguageParser"
+    implements="ru.spbau.kozlov.queries.psi.api.QueryLanguagePsiElement"
+    extends="ru.spbau.kozlov.queries.psi.QueryLanguageElementImpl"
+
+    elementTypeHolderClass="ru.spbau.kozlov.queries.parsing.QueryLanguageElementTypes"
+    elementTypePrefix="QUERY_LANGUAGE_"
+    elementTypeClass="ru.spbau.kozlov.queries.psi.QueryLanguageElementType"
+    tokenTypeClass="ru.spbau.kozlov.queries.psi.QueryLanguageElementType"
+
+    psiClassPrefix="QueryLanguage"
+    psiImplClassSuffix="Impl"
+    psiPackage="ru.spbau.kozlov.queries.psi.api"
+    psiImplPackage="ru.spbau.kozlov.queries.psi"
+
+    tokens=[
+        OR_OPERATOR_1='OR'
+        OR_OPERATOR_2='|'
+        TILDE='~'
+        QUOTATION_MARK='"'
+        ASTERISK='*'
+        RANGE='..'
+
+        COLON=':'
+        WEATHER_KEYWORD='weather'
+        TIME_KEYWORD='time'
+        DEFINE_KEYWORD='define'
+        CACHED_KEYWORD='cached'
+        TRANSLATE_KEYWORD='translate'
+        INTO_KEYWORD='into'
+        IN_KEYWORD='in'
+
+        ADDITION_OPERATOR='+'
+        SUBSTRACTION_OPERATOR='-'
+        MULTIPLICATION_OPERATOR='*'
+        DIVISION_OPERATOR='/'
+        MODULO_OPERATOR_1='%'
+        MODULO_OPERATOR_2='mod'
+        INVOLUTION_OPERATOR_1='^'
+        INVOLUTION_OPERATOR_2='**'
+        ABS='abs'
+        SIN='sin'
+        COS='cos'
+        TAN='tan'
+        ARCSIN='arcsin'
+        ARCCOS='arccos'
+        ARCTAN='arctan'
+        LN='ln'
+        LOG='log'
+        LG='lg'
+        EXP='exp'
+        FACTORIAL='!'
+        LEFT_PAREN='('
+        RIGHT_PAREN=')'
+
+        E='e'
+        PI='pi'
+        I='i'
+        GAMMA='gamma'
+
+        METRE='m'
+        KILOMETRE='km'
+
+        DOLLAR_SIGN='$'
+        DOLLAR='dollar'
+        EURO_SIGN='€'
+        EURO='euro'
+
+        SPACE='regexp:\s+'
+        INTEGER='regexp:[1-9]\d*'
+        FLOAT='regexp:(0|([1-9]\d*))(\.\d*)?'
+        WORD='regexp:\w+'
+    ]
+}
+
+queries ::= query*
+query ::= !<<eof>> ( text_query | weather_query | time_query | define_query | cached_query | translate_query | convert_query | arithmetic_expression)
+
+// text queries
+private text_query ::= or_query
+
+private or_query ::= and_query or_query_suffix *
+left or_query_suffix ::= or_operation and_query
+private or_operation ::= OR_OPERATOR_1 | OR_OPERATOR_2
+
+private and_query ::= word_query+
+
+private word_query ::= word_query_operator? ( quotation_query | single_word_query )
+private word_query_operator ::= SUBSTRACTION_OPERATOR | TILDE
+
+private quotation_query ::= QUOTATION_MARK single_word_query+ QUOTATION_MARK
+
+private single_word_query ::= WORD | word_placeholder
+private word_placeholder ::= ASTERISK | range_query
+private range_query ::= number_literal_with_dimension RANGE number_literal_with_dimension
+
+private weather_query ::= WEATHER_KEYWORD COLON? WORD
+private time_query ::= TIME_KEYWORD COLON? WORD
+private define_query ::= DEFINE_KEYWORD COLON? WORD+
+private cached_query ::= CACHED_KEYWORD COLON? WORD+
+private translate_query ::= TRANSLATE_KEYWORD COLON? WORD+ INTO_KEYWORD WORD
+private convert_query ::= arithmetic_expression IN_KEYWORD suffix_dimension
+
+// arithmetic expressions
+private arithmetic_expression ::= addition_expression
+
+private addition_expression ::= multiplication_expression addition_expression_suffix*
+left addition_expression_suffix ::= addition_operation multiplication_expression
+private addition_operation ::= ADDITION_OPERATOR | SUBSTRACTION_OPERATOR
+
+private multiplication_expression ::= involution_expression multiplication_expression_suffix*
+left multiplication_expression_suffix ::= multiplication_operation involution_expression
+private multiplication_operation ::= MULTIPLICATION_OPERATOR | DIVISION_OPERATOR | MODULO_OPERATOR_1 | MODULO_OPERATOR_2
+
+private involution_expression ::= unary_expression involution_expression_suffix?
+left involution_expression_suffix ::= involution_operation unary_expression
+private involution_operation ::= INVOLUTION_OPERATOR_1 | INVOLUTION_OPERATOR_2
+
+private unary_expression ::= unary_operation? function_expression
+private unary_operation ::= ADDITION_OPERATOR | SUBSTRACTION_OPERATOR
+
+private function_expression ::= prefix_expression | postfix_expression | primary_expression
+private prefix_expression ::= prefix_operation primary_expression
+private postfix_expression ::= primary_expression postfix_operation
+private prefix_operation ::= ABS | SIN | COS | TAN | ARCSIN | ARCCOS | ARCTAN | LN | LOG | LG | EXP
+private postfix_operation ::= FACTORIAL
+
+private primary_expression ::= paren_expression | number_literal_with_dimension
+private paren_expression ::= ( LEFT_PAREN addition_expression RIGHT_PAREN )
+
+private number_literal_with_dimension ::= ( number_literal suffix_dimension) | ( prefix_dimension? number_literal )
+private prefix_dimension ::= DOLLAR_SIGN | EURO_SIGN
+private suffix_dimension ::= DOLLAR | EURO | METRE | KILOMETRE
+private number_literal ::= INTEGER | FLOAT | E | PI | I | GAMMA
