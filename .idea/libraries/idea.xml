@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/query-language/lib/idea.jar!/" />
       <root url="jar://$PROJECT_DIR$/query-language/lib/openapi.jar!/" />
+      <root url="jar://$PROJECT_DIR$/query-language/lib/util.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

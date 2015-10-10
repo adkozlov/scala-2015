@@ -1,5 +1,6 @@
 {
-    parserClass="ru.spbau.kozlov.queries.QueryLanguageParser"
+    parserClass="ru.spbau.kozlov.queries.parsing.QueryLanguageParser"
+    parserUtilClass="ru.spbau.kozlov.queries.parsing.QueryLanguageParserUtil"
     implements="ru.spbau.kozlov.queries.psi.api.QueryLanguagePsiElement"
     extends="ru.spbau.kozlov.queries.psi.QueryLanguageElementImpl"
 
@@ -66,7 +67,7 @@
         EURO_SIGN='€'
         EURO='euro'
 
-        SPACE='regexp:\s+'
+        WHITE_SPACE='regexp:\s+'
         INTEGER='regexp:[1-9]\d*'
         FLOAT='regexp:(0|([1-9]\d*))(\.\d*)?'
         WORD='regexp:\w+'
