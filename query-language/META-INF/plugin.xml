@@ -1,8 +1,8 @@
 <idea-plugin version="2">
-    <id>com.yourcompany.unique.plugin.id</id>
-    <name>Plugin display name here</name>
+    <id>ru.spbau.kozlov.queries</id>
+    <name>IntelliJ plugin for Google search query language</name>
     <version>1.0</version>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <vendor email="adkozlov@gmail.com" url="https://github.com/adkozlov">Andrew Kozlov</vendor>
 
     <description><![CDATA[
       Enter short description for your plugin here.<br>
@@ -25,7 +25,8 @@
     -->
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <lang.parserDefinition language="QueryLanguage"
+                               implementationClass="ru.spbau.kozlov.queries.parsing.QueryLanguageParserDefinition"/>
     </extensions>
 
     <application-components>

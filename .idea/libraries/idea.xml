@@ -4,6 +4,7 @@
       <root url="jar://$PROJECT_DIR$/query-language/lib/idea.jar!/" />
       <root url="jar://$PROJECT_DIR$/query-language/lib/openapi.jar!/" />
       <root url="jar://$PROJECT_DIR$/query-language/lib/util.jar!/" />
+      <root url="jar://$PROJECT_DIR$/query-language/lib/resources.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
