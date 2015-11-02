@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/macro/macro.iml" filepath="$PROJECT_DIR$/macro/macro.iml" />
       <module fileurl="file://$PROJECT_DIR$/query-language/query-language.iml" filepath="$PROJECT_DIR$/query-language/query-language.iml" />
       <module fileurl="file://$PROJECT_DIR$/scala-2015.iml" filepath="$PROJECT_DIR$/scala-2015.iml" />
     </modules>
